@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap'
 
-createApp(App).mount('#app')
+let myWindow = window as any;
+createApp(App).mount('#'+myWindow.asoneId)

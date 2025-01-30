@@ -2,13 +2,12 @@
 import { ref } from 'vue';
 
 interface TreeNodeData {
-  id: number;
+  
   label: string;
   children?: TreeNodeData[];
   videoUrl?: string;
 }
-
-const props = defineProps<{
+ defineProps<{
   node: TreeNodeData;
 }>();
 
@@ -51,7 +50,7 @@ const selectVideo = (url: string) => {
     <div v-if="isExpanded && node.children" class="node-children">
       <TreeNode
         v-for="child in node.children"
-        :key="child.id"
+        :key="child.label"
         :node="child"
         @select-video="selectVideo"
       />

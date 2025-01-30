@@ -10,10 +10,7 @@
   },
   "dependencies": {
     "vue": "^3.4.38",
-    "video.js": "^8.10.0",
-    "bootstrap": "^4.6.2",
-    "jquery": "^3.7.1",
-    "popper.js": "^1.16.1"
+    "video.js": "^8.10.0"
   },
   "devDependencies": {
     "@types/video.js": "^7.3.56",
