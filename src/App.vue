@@ -4,34 +4,37 @@ import TreeNode from "./components/TreeNode.vue";
 import VideoPlayer from "./components/VideoPlayer.vue";
 let myWindow = window as any;
 let treeData = JSON.parse(atob(myWindow.asoneData));
-let roleTree = { 
-  label: '',
-  children: []
+let roleTree = {
+  label: "",
+  children: [],
 };
-let myRole = myWindow.asoneRoles.split(',');
+let myRole = myWindow.asoneRoles.split(",");
 //console.log(treeData);
 ////console.log(myWindow.asoneRoles);
-console.log(myRole);
+//console.log(myRole);
+
+// the treeData has entire classes with role defined
+// extract the treeData contain myRole to roleTree
+// use the roleTree
 for (const key in treeData) {
-  if (key == 'children') continue;
+  if (key == "children") continue;
   // @ts-ignore
   roleTree[key] = treeData[key];
 
-  //console.log(key); 
+  //console.log(key);
 }
-for (const item of treeData['children']) {
-outerLoop:
-  for (const c of item['role']) {
+for (const item of treeData["children"]) {
+  outerLoop: for (const c of item["role"]) {
+    // check if this class belong to my role
     for (const r of myRole) {
       if (c == r) {
-          // @ts-ignore
-          roleTree['children'].push(item);
-          break outerLoop;
+        // @ts-ignore
+        roleTree["children"].push(item);
+        break outerLoop;
       }
       //console.log('Compare ',c, r)
     }
   }
-  
 }
 ////console.log(roleTree);
 /* const treeData = {'children': [{'children': [{'label': '0-one-fun-video',
