@@ -88,17 +88,16 @@ const handleVideoSelect = (url: string) => {
     </nav>
 
     <div class="row flex-grow-1">
-      <!-- Tree Panel -->
-      <div class="col-md-3 bg-light p-3 border-right">
-        <div class="tree-container">
-          <TreeNode :node="roleTree" @select-video="handleVideoSelect" />
-        </div>
-      </div>
-
       <!-- Video Panel -->
       <div class="col-md-9 p-3">
         <div class="h-100 d-flex align-items-center justify-content-center">
           <VideoPlayer :video-url="selectedVideo" />
+        </div>
+      </div>
+      <!-- Tree Panel -->
+      <div class="col-md-3 bg-light p-3 border-right">
+        <div class="tree-container">
+          <TreeNode :node="roleTree" @select-video="handleVideoSelect" />
         </div>
       </div>
     </div>
