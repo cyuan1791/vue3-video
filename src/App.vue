@@ -9,7 +9,7 @@ let roleTree = {
   children: [],
 };
 let myRole = myWindow.asoneRoles.split(",");
-//console.log(treeData);
+console.log(treeData);
 ////console.log(myWindow.asoneRoles);
 //console.log(myRole);
 
@@ -75,9 +75,14 @@ for (const item of treeData["children"]) {
  'label': 'Top'}
  */
 const selectedVideo = ref("https://vjs.zencdn.net/v/oceans.mp4");
+const selectedtcode = ref("");
+const selectedscode = ref("");
 
-const handleVideoSelect = (url: string) => {
-  selectedVideo.value = url;
+const handleVideoSelect = (data: string) => {
+  let a = data.split(",");
+  selectedVideo.value = a[0];
+  selectedtcode.value = atob(a[1]);
+  selectedscode.value = atob(a[2]);
 };
 </script>
 
@@ -90,8 +95,11 @@ const handleVideoSelect = (url: string) => {
     <div class="row flex-grow-1">
       <!-- Video Panel -->
       <div class="col-md-9 p-3">
-        <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="h-100 d-flex flex-column">
+          <div v-html="selectedscode"></div>
           <VideoPlayer :video-url="selectedVideo" />
+
+          <div v-html="selectedtcode"></div>
         </div>
       </div>
       <!-- Tree Panel -->

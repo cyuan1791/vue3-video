@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 interface TreeNodeData {
-  
   label: string;
   children?: TreeNodeData[];
   videoUrl?: string;
+  tcode?: string;
+  scode?: string;
 }
- defineProps<{
+defineProps<{
   node: TreeNodeData;
 }>();
 
 const emit = defineEmits<{
-  (e: 'select-video', url: string): void
+  (e: "select-video", url: string): void;
 }>();
 
 const isExpanded = ref(false);
@@ -22,31 +23,32 @@ const toggleNode = () => {
 };
 
 const selectVideo = (url: string) => {
-  emit('select-video', url);
+  emit("select-video", url);
 };
 </script>
 
 <template>
   <div class="tree-node">
-    <div 
-      class="node-content d-flex align-items-center" 
-      @click="node.videoUrl ? selectVideo(node.videoUrl) : toggleNode()"
+    <div
+      class="node-content d-flex align-items-center"
+      @click="
+        node.videoUrl
+          ? selectVideo(node.videoUrl + ',' + node.tcode + ',' + node.scode)
+          : toggleNode()
+      "
     >
-      <i 
+      <i
         v-if="node.children"
         class="bi mr-2"
         :class="isExpanded ? 'bi-chevron-down' : 'bi-chevron-right'"
-      >{{ isExpanded ? '▼' : '▶' }}</i>
-      <i 
-        v-else
-        class="bi bi-play-circle mr-2"
-      >▶</i>
-      <span 
-        class="label"
-        :class="{ 'text-primary': node.videoUrl }"
-      >{{ node.label }}</span>
+        >{{ isExpanded ? "▼" : "▶" }}</i
+      >
+      <i v-else class="bi bi-play-circle mr-2">▶</i>
+      <span class="label" :class="{ 'text-primary': node.videoUrl }">{{
+        node.label
+      }}</span>
     </div>
-    
+
     <div v-if="isExpanded && node.children" class="node-children">
       <TreeNode
         v-for="child in node.children"
