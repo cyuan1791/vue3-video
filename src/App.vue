@@ -8,8 +8,11 @@ let roleTree = {
   label: "",
   children: [],
 };
+//console.log(treeData);
+
+let introVideo = JSON.parse(atob(myWindow.asoneIntroVideo));
+
 let myRole = myWindow.asoneRoles.split(",");
-console.log(treeData);
 ////console.log(myWindow.asoneRoles);
 //console.log(myRole);
 
@@ -74,8 +77,12 @@ for (const item of treeData["children"]) {
                'role': ['classA', 'classB']}],
  'label': 'Top'}
  */
-const selectedVideo = ref("https://vjs.zencdn.net/v/oceans.mp4");
+//const selectedVideo = ref("https://vjs.zencdn.net/v/oceans.mp4");
+// @ts-ignore
+const selectedVideo = ref(introVideo["url"]);
+// @ts-ignore
 const selectedtcode = ref("");
+// @ts-ignore
 const selectedscode = ref("");
 
 const handleVideoSelect = (data: string) => {
@@ -88,10 +95,6 @@ const handleVideoSelect = (data: string) => {
 
 <template>
   <div class="container-fluid vh-100 d-flex flex-column">
-    <nav class="navbar navbar-dark bg-dark">
-      <span class="navbar-brand mb-0 h1">Video Library</span>
-    </nav>
-
     <div class="row flex-grow-1">
       <!-- Video Panel -->
       <div class="col-md-9 p-3">
@@ -128,3 +131,4 @@ body {
   height: 100%;
 }
 </style>
+
