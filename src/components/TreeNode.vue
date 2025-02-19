@@ -1,4 +1,5 @@
 <script setup lang="ts">
+//import { nodeModuleNameResolver } from "typescript";
 import { ref } from "vue";
 
 interface TreeNodeData {
@@ -6,6 +7,7 @@ interface TreeNodeData {
   children?: TreeNodeData[];
   videoUrl?: string;
   tcode?: string;
+  page?: string;
   scode?: string;
 }
 defineProps<{
@@ -33,7 +35,15 @@ const selectVideo = (url: string) => {
       class="node-content d-flex align-items-center"
       @click="
         node.videoUrl
-          ? selectVideo(node.videoUrl + ',' + node.tcode + ',' + node.scode)
+          ? selectVideo(
+              node.videoUrl +
+                ',' +
+                node.tcode +
+                ',' +
+                node.scode +
+                ',' +
+                node.page
+            )
           : toggleNode()
       "
     >

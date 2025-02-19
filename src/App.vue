@@ -8,7 +8,7 @@ let roleTree = {
   label: "",
   children: [],
 };
-//console.log(treeData);
+console.log(treeData);
 
 let introVideo = JSON.parse(atob(myWindow.asoneIntroVideo));
 
@@ -84,12 +84,16 @@ const selectedVideo = ref(introVideo["url"]);
 const selectedtcode = ref("");
 // @ts-ignore
 const selectedscode = ref("");
+// @ts-ignore
+const selectedPage = ref("default");
 
 const handleVideoSelect = (data: string) => {
   let a = data.split(",");
-  selectedVideo.value = a[0];
-  selectedtcode.value = atob(a[1]);
-  selectedscode.value = atob(a[2]);
+  selectedVideo.value = a[0]; // video path
+  //console.log(selectedVideo);
+  selectedtcode.value = atob(a[1]); // bottom hmtl in base64/json
+  selectedscode.value = atob(a[2]); // top html in base/json
+  selectedPage.value = a[3]; // top html in base/json
 };
 </script>
 
@@ -100,7 +104,8 @@ const handleVideoSelect = (data: string) => {
       <div class="col-md-9 p-3">
         <div class="h-100 d-flex flex-column">
           <div v-html="selectedscode"></div>
-          <VideoPlayer :video-url="selectedVideo" />
+          {{ selectedPage }} {{ selectedVideo }}
+          <VideoPlayer :videoUrl="selectedVideo" :selectedPage="selectedPage" />
 
           <div v-html="selectedtcode"></div>
         </div>
@@ -131,4 +136,3 @@ body {
   height: 100%;
 }
 </style>
-
