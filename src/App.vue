@@ -85,7 +85,7 @@ const selectedtcode = ref("");
 // @ts-ignore
 const selectedscode = ref("");
 // @ts-ignore
-const selectedPage = ref("default");
+const selectedPath = ref("default");
 
 const handleVideoSelect = (data: string) => {
   let a = data.split(",");
@@ -93,7 +93,7 @@ const handleVideoSelect = (data: string) => {
   //console.log(selectedVideo);
   selectedtcode.value = atob(a[1]); // bottom hmtl in base64/json
   selectedscode.value = atob(a[2]); // top html in base/json
-  selectedPage.value = a[3]; // top html in base/json
+  selectedPath.value = a[3]; // top html in base/json
 };
 </script>
 
@@ -104,8 +104,8 @@ const handleVideoSelect = (data: string) => {
       <div class="col-md-9 p-3">
         <div class="h-100 d-flex flex-column">
           <div v-html="selectedscode"></div>
-          {{ selectedPage }} {{ selectedVideo }}
-          <VideoPlayer :videoUrl="selectedVideo" :selectedPage="selectedPage" />
+          {{ selectedPath }} {{ selectedVideo }}
+          <VideoPlayer :videoUrl="selectedVideo" :selectedPath="selectedPath" />
 
           <div v-html="selectedtcode"></div>
         </div>

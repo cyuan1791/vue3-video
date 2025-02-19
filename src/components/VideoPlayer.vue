@@ -7,7 +7,7 @@ const videoElement = ref<HTMLVideoElement | null>(null);
 const player = ref<any>(null);
 const props = defineProps<{
   videoUrl: string;
-  selectedPage: string;
+  selectedPath: string;
 }>();
 
 var storedTime = {};
@@ -29,12 +29,12 @@ watch(
       var savedTime: any = "";
       // @ts-ignore
       storedTime = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
-      if (props.selectedPage in storedTime) {
+      if (props.selectedPath in storedTime) {
         // @ts-ignore
-        if (props.selectedPage in storedTime) {
+        if (props.selectedPath in storedTime) {
           savedTime = parseFloat(
             //@ts-ignore
-            storedTime[props.selectedPage][props.videoUrl]
+            storedTime[props.selectedPath][props.videoUrl]
           );
         }
       }
@@ -45,12 +45,12 @@ watch(
 
       // Save position periodically
       player.value.on("timeupdate", () => {
-        if (!(props.selectedPage in storedTime)) {
+        if (!(props.selectedPath in storedTime)) {
           // @ts-ignore
-          storedTime[props.selectedPage] = {};
+          storedTime[props.selectedPath] = {};
         }
         // @ts-ignore
-        storedTime[props.selectedPage][props.videoUrl] = player.value
+        storedTime[props.selectedPath][props.videoUrl] = player.value
           .currentTime()
           .toString();
         localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedTime));
@@ -65,7 +65,7 @@ watch(
 
 onMounted(() => {
   if (!videoElement.value) return;
-  console.log("init");
+  //console.log("init");
   // Initialize video.js player
   player.value = videojs(videoElement.value, {
     controls: true,
@@ -85,29 +85,29 @@ onMounted(() => {
   if (!storedTime) {
     storedTime = {};
   }
-  if (props.selectedPage in storedTime) {
+  if (props.selectedPath in storedTime) {
     // @ts-ignore
-    if (props.selectedPage in storedTime) {
+    if (props.selectedPath in storedTime) {
       //@ts-ignore
-      savedTime = parseFloat(storedTime[props.selectedPage][props.videoUrl]);
+      savedTime = parseFloat(storedTime[props.selectedPath][props.videoUrl]);
     }
   }
-  console.log("init 2");
+  //console.log("init 2");
   if (savedTime) {
     player.value.currentTime(parseFloat(savedTime));
   }
 
   // Save position periodically
   player.value.on("timeupdate", () => {
-    if (!(props.selectedPage in storedTime)) {
+    if (!(props.selectedPath in storedTime)) {
       // @ts-ignore
-      storedTime[props.selectedPage] = {};
+      storedTime[props.selectedPath] = {};
     }
     // @ts-ignore
-    storedTime[props.selectedPage][props.videoUrl] = player.value
+    storedTime[props.selectedPath][props.videoUrl] = player.value
       .currentTime()
       .toString();
-    console.log(storedTime);
+    //console.log(storedTime);
     localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedTime));
     //localStorage.setItem(
     //  VIDEO_STORAGE_KEY,
