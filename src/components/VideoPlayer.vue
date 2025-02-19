@@ -96,6 +96,9 @@ onMounted(() => {
   if (savedTime) {
     player.value.currentTime(parseFloat(savedTime));
   }
+  player.value.on("ended", () => {
+    console.log("done playing ", props.selectedPath, props.videoUrl);
+  });
 
   // Save position periodically
   player.value.on("timeupdate", () => {

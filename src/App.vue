@@ -89,11 +89,11 @@ const selectedPath = ref("default");
 
 const handleVideoSelect = (data: string) => {
   let a = data.split(",");
-  selectedVideo.value = a[0]; // video path
+  selectedVideo.value = a[0]; // video file
   //console.log(selectedVideo);
   selectedtcode.value = atob(a[1]); // bottom hmtl in base64/json
   selectedscode.value = atob(a[2]); // top html in base/json
-  selectedPath.value = a[3]; // top html in base/json
+  selectedPath.value = a[3]; // path
 };
 </script>
 
