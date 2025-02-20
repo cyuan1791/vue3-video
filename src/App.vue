@@ -8,7 +8,7 @@ let roleTree = {
   label: "",
   children: [],
 };
-console.log(treeData);
+//console.log(treeData);
 
 let introVideo = JSON.parse(atob(myWindow.asoneIntroVideo));
 
@@ -67,7 +67,6 @@ const handleVideoSelect = (data: string) => {
       <div class="col-md-9 p-3">
         <div class="h-100 d-flex flex-column">
           <div v-html="selectedscode"></div>
-          {{ selectedPath }} {{ selectedVideo }}
           <VideoPlayer :videoUrl="selectedVideo" :selectedPath="selectedPath" />
 
           <div v-html="selectedtcode"></div>

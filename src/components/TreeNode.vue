@@ -32,7 +32,7 @@ const toggleNode = () => {
   var savedKey = "";
   var savedLocation = {};
   isExpanded.value = !isExpanded.value;
-  console.log("toggle", isExpanded.value, props.node, props.node.label);
+  //console.log("toggle", isExpanded.value, props.node, props.node.label);
   // @ts-ignore
   savedKey = localStorage.getItem(VIDEO_LOCATION);
   if (savedKey) {
@@ -55,7 +55,7 @@ function isVideoDone(path: any) {
   if (finishedSave) {
     finishedSaveObj = JSON.parse(finishedSave);
   }
-  console.log(path);
+  //console.log(path);
 
   // @ts-ignore
   return finishedSaveObj[finishedVideoPath] ? true : false;
@@ -64,8 +64,8 @@ function isVideoDone(path: any) {
 onMounted(() => {
   var savedKey = "";
   var savedLocation = {};
-  console.log("onmount");
-  console.log("node", isExpanded.value, props.node);
+  //console.log("onmount");
+  // console.log("node", isExpanded.value, props.node);
   // @ts-ignore
   savedKey = localStorage.getItem(VIDEO_LOCATION);
   if (savedKey) {
@@ -144,7 +144,7 @@ const selectVideo = (url: string) => {
   border-left: 1px solid #dee2e6;
 }
 .nodefinished {
-  background-color: blueviolet;
+  background-color: rgb(204, 192, 215);
 }
 
 .label {

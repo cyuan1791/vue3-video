@@ -115,9 +115,9 @@ onMounted(() => {
       props.selectedPath.replace(/\//g, "")
     );
     if (element) element.classList.add("nodefinished");
-    console.log("find elementy", element);
+    //console.log("find elementy", element);
 
-    console.log("done playing ", props.selectedPath.replace(/\//g, ""));
+    //console.log("done playing ", props.selectedPath.replace(/\//g, ""));
     videoFinished.value = true;
   });
 
