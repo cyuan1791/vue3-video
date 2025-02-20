@@ -40,43 +40,6 @@ for (const item of treeData["children"]) {
   }
 }
 ////console.log(roleTree);
-/* const treeData = {'children': [{'children': [{'label': '0-one-fun-video',
-                             'videoUrl': '/default/media/nav6h0/s/ClassA/A000001027001001/oneColumnClass/174860-852215326_medium.mp4'},
-                            {'label': '1-one-fun-video',
-                             'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                            {'label': '2-one-fun-video',
-                             'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                            {'label': '3-one-fun-video',
-                             'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'}],
-               'label': 'ClassA',
-               'path': 'nav6h3/ClassA/s/Lesson/0-one-fun-video',
-               'role': ['classA']},
-              {'children': [{'children': [{'label': '0-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                                          {'label': '1-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                                          {'label': '2-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                                          {'label': '3-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'}],
-                             'label': 'LessonOne'}],
-               'label': 'Classes',
-               'path': 'nav6h3/Classes/LessonOne/s/Lesson/0-one-fun-video',
-               'role': ['classA', 'classB', 'classC']},
-              {'children': [{'children': [{'label': '0-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                                          {'label': '1-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                                          {'label': '2-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'},
-                                          {'label': '3-one-fun-video',
-                                           'videoUrl': '/default/media/nav6h0/s/Classes/LessonOne/A000001027001001/oneColumnClass/3723-173719869_medium.mp4'}],
-                             'label': 'LessonTwo'}],
-               'label': 'Classes',
-               'path': 'nav6h3/Classes/LessonTwo/s/Lesson/0-one-fun-video',
-               'role': ['classA', 'classB']}],
- 'label': 'Top'}
- */
 //const selectedVideo = ref("https://vjs.zencdn.net/v/oceans.mp4");
 // @ts-ignore
 const selectedVideo = ref(introVideo["url"]);

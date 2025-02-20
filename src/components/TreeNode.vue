@@ -1,6 +1,6 @@
 <script setup lang="ts">
 //import { nodeModuleNameResolver } from "typescript";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 
 interface TreeNodeData {
   label: string;
@@ -21,6 +21,13 @@ const emit = defineEmits<{
 const VIDEO_LOCATION = "videoLocation";
 const isExpanded = ref(false);
 
+const contentId = computed(() => {
+  if (props.node.children) {
+    return "";
+  }
+  return props.node.path?.replace(/\//g, "");
+});
+
 const toggleNode = () => {
   var savedKey = "";
   var savedLocation = {};
@@ -38,6 +45,21 @@ const toggleNode = () => {
   // @ts-ignore
   localStorage.setItem(VIDEO_LOCATION, JSON.stringify(savedLocation));
 };
+
+const FINISHED_VIDEO_STORAGE_KEY = "video-finished";
+
+function isVideoDone(path: any) {
+  let finishedVideoPath = path.replace(/\//g, "");
+  let finishedSave = localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY);
+  let finishedSaveObj = {};
+  if (finishedSave) {
+    finishedSaveObj = JSON.parse(finishedSave);
+  }
+  console.log(path);
+
+  // @ts-ignore
+  return finishedSaveObj[finishedVideoPath] ? true : false;
+}
 
 onMounted(() => {
   var savedKey = "";
@@ -62,6 +84,8 @@ const selectVideo = (url: string) => {
 <template>
   <div class="tree-node">
     <div
+      :class="{ nodefinished: isVideoDone(contentId) }"
+      :id="contentId"
       class="node-content d-flex align-items-center"
       @click="
         node.videoUrl
@@ -118,6 +142,9 @@ const selectVideo = (url: string) => {
   margin-left: 1.5rem;
   padding-left: 0.5rem;
   border-left: 1px solid #dee2e6;
+}
+.nodefinished {
+  background-color: blueviolet;
 }
 
 .label {

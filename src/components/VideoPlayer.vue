@@ -11,10 +11,12 @@ const props = defineProps<{
 }>();
 
 var storedTime = {};
+var videoFinished = ref(false);
 
 //console.log(props.videoUrl);
 
 const VIDEO_STORAGE_KEY = "video-time-position-a";
+const FINISHED_VIDEO_STORAGE_KEY = "video-finished";
 
 // Sample video URL - replace with your actual video URL
 //const videoUrl = "https://vjs.zencdn.net/v/oceans.mp4";
@@ -97,7 +99,26 @@ onMounted(() => {
     player.value.currentTime(parseFloat(savedTime));
   }
   player.value.on("ended", () => {
-    console.log("done playing ", props.selectedPath, props.videoUrl);
+    let finishedVideoPath = props.selectedPath.replace(/\//g, "");
+    let finishedSave = localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY);
+    let finishedSaveObj = {};
+    if (finishedSave) {
+      finishedSaveObj = JSON.parse(finishedSave);
+    }
+    // @ts-ignore
+    finishedSaveObj[finishedVideoPath] = {};
+    localStorage.setItem(
+      FINISHED_VIDEO_STORAGE_KEY,
+      JSON.stringify(finishedSaveObj)
+    );
+    const element = document.getElementById(
+      props.selectedPath.replace(/\//g, "")
+    );
+    if (element) element.classList.add("nodefinished");
+    console.log("find elementy", element);
+
+    console.log("done playing ", props.selectedPath.replace(/\//g, ""));
+    videoFinished.value = true;
   });
 
   // Save position periodically
