@@ -2,6 +2,8 @@
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import { storeLocal } from "../lib/storeLocal.ts";
+const { getSavedTime, storeSavedTime, storeEndedTime } = storeLocal();
 
 const videoElement = ref<HTMLVideoElement | null>(null);
 const player = ref<any>(null);
@@ -10,13 +12,7 @@ const props = defineProps<{
   selectedPath: string;
 }>();
 
-var storedTime = {};
-var videoFinished = ref(false);
-
 //console.log(props.videoUrl);
-
-const VIDEO_STORAGE_KEY = "video-time-position-a";
-const FINISHED_VIDEO_STORAGE_KEY = "video-finished";
 
 // Sample video URL - replace with your actual video URL
 //const videoUrl = "https://vjs.zencdn.net/v/oceans.mp4";
@@ -28,38 +24,15 @@ watch(
       player.value.src({ src: newUrl, type: "video/mp4" });
       // Load saved position
       // Load saved position
-      var savedTime: any = "";
-      // @ts-ignore
-      storedTime = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
-      if (props.selectedPath in storedTime) {
-        // @ts-ignore
-        if (props.selectedPath in storedTime) {
-          savedTime = parseFloat(
-            //@ts-ignore
-            storedTime[props.selectedPath][props.videoUrl]
-          );
-        }
-      }
+      var savedTime = getSavedTime(props.selectedPath, props.videoUrl);
 
       if (savedTime) {
-        player.value.currentTime(parseFloat(savedTime));
+        player.value.currentTime(savedTime);
       }
 
       // Save position periodically
       player.value.on("timeupdate", () => {
-        if (!(props.selectedPath in storedTime)) {
-          // @ts-ignore
-          storedTime[props.selectedPath] = {};
-        }
-        // @ts-ignore
-        storedTime[props.selectedPath][props.videoUrl] = player.value
-          .currentTime()
-          .toString();
-        localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedTime));
-        //localStorage.setItem(
-        //  VIDEO_STORAGE_KEY,
-        //  player.value.currentTime().toString()
-        // );
+        storeSavedTime(props.selectedPath, props.videoUrl, player);
       });
     }
   }
@@ -80,63 +53,22 @@ onMounted(() => {
     ],
   });
 
-  // Load saved position
-  var savedTime: any = "";
-  // @ts-ignore
-  storedTime = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
-  if (!storedTime) {
-    storedTime = {};
-  }
-  if (props.selectedPath in storedTime) {
-    // @ts-ignore
-    if (props.selectedPath in storedTime) {
-      //@ts-ignore
-      savedTime = parseFloat(storedTime[props.selectedPath][props.videoUrl]);
-    }
-  }
-  //console.log("init 2");
+  var savedTime = getSavedTime(props.selectedPath, props.videoUrl);
   if (savedTime) {
-    player.value.currentTime(parseFloat(savedTime));
+    player.value.currentTime(savedTime);
   }
   player.value.on("ended", () => {
-    let finishedVideoPath = props.selectedPath.replace(/\//g, "");
-    let finishedSave = localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY);
-    let finishedSaveObj = {};
-    if (finishedSave) {
-      finishedSaveObj = JSON.parse(finishedSave);
-    }
-    // @ts-ignore
-    finishedSaveObj[finishedVideoPath] = {};
-    localStorage.setItem(
-      FINISHED_VIDEO_STORAGE_KEY,
-      JSON.stringify(finishedSaveObj)
-    );
+    storeEndedTime(props.selectedPath.replace(/\//g, ""));
     const element = document.getElementById(
       props.selectedPath.replace(/\//g, "")
     );
     if (element) element.classList.add("nodefinished");
     //console.log("find elementy", element);
-
-    //console.log("done playing ", props.selectedPath.replace(/\//g, ""));
-    videoFinished.value = true;
   });
 
   // Save position periodically
   player.value.on("timeupdate", () => {
-    if (!(props.selectedPath in storedTime)) {
-      // @ts-ignore
-      storedTime[props.selectedPath] = {};
-    }
-    // @ts-ignore
-    storedTime[props.selectedPath][props.videoUrl] = player.value
-      .currentTime()
-      .toString();
-    //console.log(storedTime);
-    localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedTime));
-    //localStorage.setItem(
-    //  VIDEO_STORAGE_KEY,
-    //  player.value.currentTime().toString()
-    // );
+    storeSavedTime(props.selectedPath, props.videoUrl, player);
   });
 });
 

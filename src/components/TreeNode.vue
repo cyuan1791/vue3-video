@@ -1,7 +1,8 @@
 <script setup lang="ts">
 //import { nodeModuleNameResolver } from "typescript";
 import { onMounted, ref, computed } from "vue";
-
+import { storeLocal } from "../lib/storeLocal.ts";
+const { isEndedTime } = storeLocal();
 interface TreeNodeData {
   label: string;
   children?: TreeNodeData[];
@@ -46,19 +47,8 @@ const toggleNode = () => {
   localStorage.setItem(VIDEO_LOCATION, JSON.stringify(savedLocation));
 };
 
-const FINISHED_VIDEO_STORAGE_KEY = "video-finished";
-
 function isVideoDone(path: any) {
-  let finishedVideoPath = path.replace(/\//g, "");
-  let finishedSave = localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY);
-  let finishedSaveObj = {};
-  if (finishedSave) {
-    finishedSaveObj = JSON.parse(finishedSave);
-  }
-  //console.log(path);
-
-  // @ts-ignore
-  return finishedSaveObj[finishedVideoPath] ? true : false;
+  return isEndedTime(path.replace(/\//g, ""));
 }
 
 onMounted(() => {
