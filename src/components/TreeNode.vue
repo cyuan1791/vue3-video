@@ -10,6 +10,7 @@ interface TreeNodeData {
   tcode?: string;
   path?: string;
   scode?: string;
+  posterImage?: string;
 }
 const props = defineProps<{
   node: TreeNodeData;
@@ -43,8 +44,8 @@ onMounted(() => {
   isExpanded.value = getNav(props.node.label);
 });
 
-const selectVideo = (url: string) => {
-  emit("select-video", url);
+const selectVideo = (data: string) => {
+  emit("select-video", data);
 };
 </script>
 
@@ -63,7 +64,9 @@ const selectVideo = (url: string) => {
                 ',' +
                 node.scode +
                 ',' +
-                node.path
+                node.path +
+                ',' +
+                node.posterImage
             )
           : toggleNode()
       "

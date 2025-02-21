@@ -49,6 +49,8 @@ const selectedtcode = ref("");
 const selectedscode = ref("");
 // @ts-ignore
 const selectedPath = ref("default");
+// @ts-ignore
+const selectedPosterImage = ref("");
 
 const handleVideoSelect = (data: string) => {
   let a = data.split(",");
@@ -57,6 +59,8 @@ const handleVideoSelect = (data: string) => {
   selectedtcode.value = atob(a[1]); // bottom hmtl in base64/json
   selectedscode.value = atob(a[2]); // top html in base/json
   selectedPath.value = a[3]; // path
+  selectedPosterImage.value = a[4];
+  //console.log(selectedPosterImage.value);
 };
 </script>
 
@@ -67,7 +71,11 @@ const handleVideoSelect = (data: string) => {
       <div class="col-md-9 p-3">
         <div class="h-100 d-flex flex-column">
           <div v-html="selectedscode"></div>
-          <VideoPlayer :videoUrl="selectedVideo" :selectedPath="selectedPath" />
+          <VideoPlayer
+            :videoUrl="selectedVideo"
+            :selectedPath="selectedPath"
+            :selectedPosterImage="selectedPosterImage"
+          />
 
           <div v-html="selectedtcode"></div>
         </div>

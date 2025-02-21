@@ -10,6 +10,7 @@ const player = ref<any>(null);
 const props = defineProps<{
   videoUrl: string;
   selectedPath: string;
+  selectedPosterImage: string;
 }>();
 
 //console.log(props.videoUrl);
@@ -22,6 +23,8 @@ watch(
   (newUrl) => {
     if (player) {
       player.value.src({ src: newUrl, type: "video/mp4" });
+      player.value.poster(props.selectedPosterImage);
+      //console.log("watch", props.selectedPosterImage);
       // Load saved position
       // Load saved position
       var savedTime = getSavedTime(props.selectedPath, props.videoUrl);
