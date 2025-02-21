@@ -25,10 +25,9 @@ console.log(count);
  */
 // by convention, composable function names start with "use"
 export function storeLocal() {
-  var storedTime = {};
-  var endedTime = {}
 
   const VIDEO_STORAGE_KEY = "video-time-position-a";
+  var storedTime = {};
 
 
   function getSavedTime(path, vpath) {
@@ -50,16 +49,14 @@ export function storeLocal() {
     }
 
     if (!(path in storedTime)) {
-      // @ts-ignore
       storedTime[path] = {};
     }
-    // @ts-ignore
     storedTime[path][vpath] = player.value.currentTime().toString();
     localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedTime));
-    //localStorage.setItem(
   }
 
   const FINISHED_VIDEO_STORAGE_KEY = "video-finished";
+  var endedTime = {}
 
   function isEndedTime(path) {
 
@@ -83,5 +80,31 @@ export function storeLocal() {
     localStorage.setItem(FINISHED_VIDEO_STORAGE_KEY, JSON.stringify(endedTime));
     //localStorage.setItem(
   }
-  return { getSavedTime, storeSavedTime, isEndedTime, storeEndedTime };
+
+  const TREE_NAVIGATION_KEY = "video-navigation";
+
+  var navStore = {}
+  function getNav(path) {
+
+    if (localStorage.getItem(TREE_NAVIGATION_KEY)) {
+      navStore = JSON.parse(localStorage.getItem(TREE_NAVIGATION_KEY));
+    }
+    if (path in navStore) {
+      return navStore[path]
+    }
+    return false;
+  }
+  function storeNav(path, isExpended) {
+    if (localStorage.getItem(TREE_NAVIGATION_KEY)) {
+      navStore = JSON.parse(localStorage.getItem(TREE_NAVIGATION_KEY));
+    }
+
+    navStore[path] = isExpended;
+  
+    // @ts-ignore
+    //endedTime[path][vpath] = player.value.currentTime().toString();
+    localStorage.setItem(TREE_NAVIGATION_KEY, JSON.stringify(navStore));
+    //localStorage.setItem(
+  }
+  return { getSavedTime, storeSavedTime, isEndedTime, storeEndedTime, storeNav, getNav };
 }

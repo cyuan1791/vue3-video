@@ -2,7 +2,7 @@
 //import { nodeModuleNameResolver } from "typescript";
 import { onMounted, ref, computed } from "vue";
 import { storeLocal } from "../lib/storeLocal.ts";
-const { isEndedTime } = storeLocal();
+const { isEndedTime, storeNav, getNav } = storeLocal();
 interface TreeNodeData {
   label: string;
   children?: TreeNodeData[];
@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (e: "select-video", url: string): void;
 }>();
 
-const VIDEO_LOCATION = "videoLocation";
+//const VIDEO_LOCATION = "videoLocation";
 const isExpanded = ref(false);
 
 const contentId = computed(() => {
@@ -30,21 +30,9 @@ const contentId = computed(() => {
 });
 
 const toggleNode = () => {
-  var savedKey = "";
-  var savedLocation = {};
   isExpanded.value = !isExpanded.value;
-  //console.log("toggle", isExpanded.value, props.node, props.node.label);
-  // @ts-ignore
-  savedKey = localStorage.getItem(VIDEO_LOCATION);
-  if (savedKey) {
-    savedLocation = JSON.parse(savedKey);
-  }
 
-  //savedLocation = JSON.parse(savedKey);
-  // @ts-ignore
-  savedLocation[props.node.label] = isExpanded.value;
-  // @ts-ignore
-  localStorage.setItem(VIDEO_LOCATION, JSON.stringify(savedLocation));
+  storeNav(props.node.label, isExpanded.value);
 };
 
 function isVideoDone(path: any) {
@@ -52,20 +40,9 @@ function isVideoDone(path: any) {
 }
 
 onMounted(() => {
-  var savedKey = "";
-  var savedLocation = {};
-  //console.log("onmount");
-  // console.log("node", isExpanded.value, props.node);
-  // @ts-ignore
-  savedKey = localStorage.getItem(VIDEO_LOCATION);
-  if (savedKey) {
-    savedLocation = JSON.parse(savedKey);
-  }
-  if (props.node.label in savedLocation) {
-    // @ts-ignore
-    isExpanded.value = savedLocation[props.node.label];
-  }
+  isExpanded.value = getNav(props.node.label);
 });
+
 const selectVideo = (url: string) => {
   emit("select-video", url);
 };
