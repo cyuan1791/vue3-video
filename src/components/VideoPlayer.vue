@@ -15,9 +15,6 @@ const props = defineProps<{
 
 //console.log(props.videoUrl);
 
-// Sample video URL - replace with your actual video URL
-//const videoUrl = "https://vjs.zencdn.net/v/oceans.mp4";
-
 watch(
   () => props.videoUrl,
   (newUrl) => {

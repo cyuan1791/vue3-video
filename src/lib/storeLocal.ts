@@ -27,83 +27,84 @@ console.log(count);
 export function storeLocal() {
 
   const VIDEO_STORAGE_KEY = "video-time-position-a";
-  var storedTime = {};
+  var storedArray = {};
+
+  if (!localStorage.getItem(VIDEO_STORAGE_KEY)) {
+    storedArray = {}
+    storedArray['savedTime'] = {}
+    storedArray['savedTime']['data'] = {}
+    storedArray['ended'] = {}
+    storedArray['ended']['data'] = {}
+    storedArray['nav'] = {}
+    storedArray['nav']['data'] = {}
+    localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedArray))
+  }
 
 
   function getSavedTime(path, vpath) {
     let savedTime = null;
 
-    if (localStorage.getItem(VIDEO_STORAGE_KEY)) {
-      storedTime = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
-    }
-    if (path in storedTime) {
-      if (vpath in storedTime[path]) {
-        savedTime = parseFloat(storedTime[path][vpath]);
+    storedArray = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
+  
+    if (path in storedArray['savedTime']['data']) {
+      if (vpath in storedArray['savedTime']['data'][path]) {
+        savedTime = parseFloat(storedArray['savedTime']['data'][path][vpath]);
       }
     }
     return savedTime;
   }
   function storeSavedTime(path, vpath, player) {
-    if (localStorage.getItem(VIDEO_STORAGE_KEY)) {
-      storedTime = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
-    }
+      storedArray = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
+    
 
-    if (!(path in storedTime)) {
-      storedTime[path] = {};
+    if (!(path in storedArray['savedTime']['data'])) {
+      storedArray['savedTime']['data'][path] = {};
     }
-    storedTime[path][vpath] = player.value.currentTime().toString();
-    localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedTime));
+    storedArray['savedTime']['data'][path][vpath] = player.value.currentTime().toString();
+    localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedArray));
   }
 
-  const FINISHED_VIDEO_STORAGE_KEY = "video-finished";
-  var endedTime = {}
 
   function isEndedTime(path) {
 
-    if (localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY)) {
-      endedTime = JSON.parse(localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY));
-    }
-    if (path in endedTime) {
+    storedArray = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
+    
+    if (path in storedArray['ended']['data']) {
       return true
     }
     return false;
   }
   function storeEndedTime(path) {
-    if (localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY)) {
-      endedTime = JSON.parse(localStorage.getItem(FINISHED_VIDEO_STORAGE_KEY));
-    }
+    storedArray = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
+    
 
-    endedTime[path] = {};
+    storedArray['ended']['data'][path] = {};
   
     // @ts-ignore
     //endedTime[path][vpath] = player.value.currentTime().toString();
-    localStorage.setItem(FINISHED_VIDEO_STORAGE_KEY, JSON.stringify(endedTime));
+    localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedArray));
     //localStorage.setItem(
   }
 
-  const TREE_NAVIGATION_KEY = "video-navigation";
 
-  var navStore = {}
   function getNav(path) {
 
-    if (localStorage.getItem(TREE_NAVIGATION_KEY)) {
-      navStore = JSON.parse(localStorage.getItem(TREE_NAVIGATION_KEY));
-    }
-    if (path in navStore) {
-      return navStore[path]
+      storedArray = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
+    
+    if (path in storedArray['nav']['data']) {
+      return storedArray['nav']['data'][path]
     }
     return false;
   }
   function storeNav(path, isExpended) {
-    if (localStorage.getItem(TREE_NAVIGATION_KEY)) {
-      navStore = JSON.parse(localStorage.getItem(TREE_NAVIGATION_KEY));
-    }
+      storedArray = JSON.parse(localStorage.getItem(VIDEO_STORAGE_KEY));
+    
 
-    navStore[path] = isExpended;
+      storedArray['nav']['data'][path] = isExpended;
   
     // @ts-ignore
     //endedTime[path][vpath] = player.value.currentTime().toString();
-    localStorage.setItem(TREE_NAVIGATION_KEY, JSON.stringify(navStore));
+    localStorage.setItem(VIDEO_STORAGE_KEY, JSON.stringify(storedArray));
     //localStorage.setItem(
   }
   return { getSavedTime, storeSavedTime, isEndedTime, storeEndedTime, storeNav, getNav };
